@@ -1,0 +1,56 @@
+.allMsg {
+    width: 330px;
+    height: 250px;
+    background: rgb(160 160 160 / 0%);
+    overflow-y: scroll;
+    scrollbar-width: 0px;
+    position: absolute;
+    left: 5%;
+    top: 66px;
+}
+.useSpan {
+    font-size: 15px;
+    color: rgb(24, 24, 24);
+    font-family: 'Courier New', Courier, monospace;
+    background: rgb(161, 206, 178);
+    border-radius: 0px 16px 16px 25px;
+    padding: 10px;
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+.rightSide {
+    display: flex;
+    justify-content: flex-end;
+}
+.left {
+    background: #160838;
+    color: white;
+    border-radius: 16px 0px 16px 16px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+input.myInput {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    padding: 10px;
+    margin-left: 15px;
+    border-radius: 10px;
+    font-family: fangsong;
+    margin-bottom: 5px;
+    background: #ecececec;
+}
+button.myBtn {
+    font-size: 17px;
+    width: 80px;
+    height: 40px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0px 15px 15px 15px;
+    background: #160838;
+    color: white;
+    font-family: fangsong;
+}
