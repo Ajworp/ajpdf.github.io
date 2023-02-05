@@ -1,4 +1,68 @@
-.open-button {
+*{margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+.navbar ul{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    background-color: rgb(2, 68, 126);
+}
+.navbar li{
+    list-style-type: none;
+    padding: 1rem;
+    font-size: x-large;
+color: orange;
+}
+.navbar a{
+    text-decoration: none;
+    color: aliceblue;
+}
+.navbar-logo{
+    flex: 1;
+    font-size: 1.5rem;
+    user-select: none;
+
+}
+.mobile-links{
+    text-align: center;
+}
+.open-button{
+    display: none;
+}
+.open-button img{
+    width: 80%;
+}
+.navbar-links:hover{
+    background-color: red;
+ }
+ .navbar-links:hover{
+    color: yellow;
+ }
+ #search{
+    color: aliceblue;
+ }
+ .searching{
+    left: 2px;
+ }
+ @media (max-width:600px){
+    .navbar ul{
+        flex-wrap: wrap;
+    }
+    .open-button{
+        display: block;
+    }
+    .navbar-links{
+        display: none;
+        width: 100%;
+        text-align:center;
+    }
+    .active{
+        display: block;
+    }
+ }
+ .open-button {
     background-color: #555;
    /* color: white;
     padding: 16px 20px;
@@ -21,8 +85,8 @@
     border: none;
   }*/
   .bbb{
-    font-size: 10px;
-    margin-left: 10px;
+    font-size: 50px;
+    margin-left: 245px;
     color: white;
     border: none;
     background: none;
@@ -45,22 +109,22 @@
   .form-popup {
     display: none;
     position: fixed;
-    /*bottom: 20px;
-    right: 15px;*/
+    /*bottom: 20px;*/
+    right: 0;
     top: 0;
     width: 270px;
     margin-left: 10px;
     height: 300px;
    /* border: 3px solid #f1f1f1;*/
     z-index: 1000;
-    background-color: white;
+    background-color: rgb(2 68 126)e;
   }
   
   /* Add styles to the form container*/
   .form-container {
     height: 272px;
     overflow: scroll;
-    background-color: #222120;
+    background-color: rgb(15 49 80);
   } 
   .form-container a{
     font-size: 25px;
