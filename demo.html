@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <meta name="description" content="PDF Viewer" />
+        <title>Convert PDF To Image</title>
+        <link rel="stylesheet" href="pdf.css" />
+        <link rel="stylesheet" href="navebar/navebar.css">
+        <script src="navebar/navbar.js"></script>
+    </head>
+    <body>
+        <nav class="navbar">
+            <ul>
+              
+        
+        
+              <li class="navbar-logo">Ajworp</li>
+             <!-- <div class="searching"><input type="search" name="searchbar" id="search" placeholder="search"></div>-->
+              <button class="open-button" onclick="openForm()" style="width: 50px;"><img src="takbar.jpg" alt="" ></button>
+              <div class="form-popup" id="myForm">
+                <button type="button" class="bbb" onclick="closeForm()"><img src="takbar.jpg" style="width:40px; margin-left: -23px;"></button>
+                <div action="action" class="form-container">
+                    <li class="mobile-links"><a href="#">Home</a></li>
+                    <li class="mobile-links"><a href="#">About</a></li>
+                    <li class="mobile-links"><a href="#">Categories</a></li>
+                    <li class="mobile-links"><a href="#">Contact</a></li>
+                </div>
+              </div>
+              
+              <li class="navbar-links"><a href="#">Home</a></li>
+              <li class="navbar-links"><a href="#">About</a></li>
+              <li class="navbar-links"><a href="#">Categories</a></li>
+              <li class="navbar-links"><a href="#">Contact</a></li>
+            </ul>
+           </nav>
+        <div class="head">Pdf to jpg</div>
+        <div class="frame">
+            <div class="center">
+                <div class="profile">
+                    <!--<div class="name">PDF transfer picture</div>-->
+                    <div class="job">document size &lt; 20Mb</div>
+                    <div class="actions">
+                        <a href="javascript:;" class="btn file">upload files<input id='pdf' type='file' accept="application/pdf"></a>
+                        <button class="btn" id="export" disabled="disabled">export pictures</button>
+                        <div id="export-type">
+                            <label><input name="type" type="radio" value="jpg" checked="checked">jpg</label>
+                            <label><input name="type" type="radio" value="png">png</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="box">
+                        <span class="value">name</span>
+                        <span class="parameter" id="pdfName"></span>
+                    </div>
+                    <div class="box">
+                        <span class="value">size</span>
+                        <span class="parameter" id="sizeText"></span>
+                    </div>
+                    <div class="box">
+                        <span class="value">number of pages</span>
+                        <span class="parameter" id="pagesText"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="imgDiv"></div>
+
+      
+
+        <script type="text/javascript" src="zip.js"></script>
+        <script type="text/javascript" src="min.js"></script>
+        <script type="text/javascript" src="File.js"></script>
+        <script type="text/javascript" src="pdf.js"></script>
+        <script type="text/javascript" src="worker.js"></script>
+        <script>
+            // PDFJS.disableStream = true;
+            var pdfFile;
+            $('#pdf').change(function () {
+                var pdfFileURL = $('#pdf').val();
+                if (pdfFileURL) {
+                    $("#imgDiv").empty(); //empty on一PDFFile display
+                    var files = $('#pdf').prop('files'); //get the file
+                    var fileSize = files[0].size;
+                    var mb;
+                    if (fileSize) {
+                        mb = fileSize / 1048576;
+                        if (mb > 20) {
+                            alert("The file size cannot be >20M");
+                            return;
+                        }
+                    }
+
+                    $("#export").removeAttr("disabled", "disabled");
+                    $("#pdfName").text(files[0].name).attr("title", files[0].name);
+                    $("#sizeText").text(mb.toFixed(2) + "Mb");
+
+                    /*pdf.jsUnable to open local files directly, so useFileReaderconvert*/
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(files[0]);
+                    reader.onload = function (e) {
+                        var myData = new Uint8Array(e.target.result)
+                        var docInitParams = {
+                            data: myData
+                        };
+                        var typedarray = new Uint8Array(this.result);
+                        PDFJS.getDocument(typedarray).then(function (pdf) { //PDFconverted to canvas
+                            $("#imgDiv").css("border", "0"); //Clear text, borders
+                            if (pdf) {
+                                var pageNum = pdf.numPages;
+                                $("#pagesText").text(pageNum);
+                                for (var i = 1; i <= pageNum; i++) {
+                                    var canvas = document.createElement('canvas');
+                                    canvas.id = "pageNum" + i;
+                                    $("#imgDiv").append(canvas);
+                                    var context = canvas.getContext('2d');
+                                    openPage(pdf, i, context);
+                                }
+                            }
+                        });
+                    };
+                }
+            });
+
+            function openPage(pdfFile, pageNumber, context) {
+                var scale = 2;
+                pdfFile.getPage(pageNumber).then(function (page) {
+                    viewport = page.getViewport(scale); // reference canvas via context
+                    var canvas = context.canvas;
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    canvas.style.width = "100%";
+                    canvas.style.height = "100%";
+                    var renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    page.render(renderContext);
+                });
+                return;
+            };
+
+            //data URL Turn into Blob
+            function dataURLtoBlob(dataurl) {
+                var arr = dataurl.split(','),
+                    mime = arr[0].match(/:(.*?);/)[1],
+                    bstr = atob(arr[1]),
+                    n = bstr.length,
+                    u8arr = new Uint8Array(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+                return new Blob([u8arr], {
+                    type: mime
+                });
+            }
+            
+            //export picture
+            $("#export").click(function () {
+                var types = 'jpg';
+                var names = document.getElementById('pdfName').getAttribute('title');
+                var items = document.getElementById('export-type').querySelectorAll('input');
+                for(var i = 0; i<items.length; i++){
+                    items[i].i = i;
+                    if(items[i].checked == true){
+                        types = items[i].value;
+                    }
+                }
+
+                var zip = new JSZip();
+                var images = zip.folder("images");
+                $("canvas").each(function (index, ele) {
+                    var canvas = document.getElementById("pageNum" + (index + 1));
+                    images.file("image-" + (index + 1) + "." + types, dataURLtoBlob(canvas.toDataURL(
+                        "image/" + types, 1.0)), {
+                        base64: true
+                    });
+                })
+                zip.generateAsync({type: "blob"}).then(function (content) {
+                    saveAs(content, names + ".zip");
+                });
+            });
+        </script>
+    </body>
+
+</html>
