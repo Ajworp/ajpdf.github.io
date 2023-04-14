@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="ContactForm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+  </head>
+<body>
+    <div class="container">
+  
+        <h1>Contact Form</h1>
+
+        <div class="form-container">
+        
+            <div class="info">
+
+                <div class="pack">
+                   <div class="text">
+                    </div>
+                
+
+                <div class="text">
+                    <h2>Email</h2><br>
+                    <span>Example@gmail.com</span>
+                </div>
+
+                <div class="text">
+                    <h2>Contact-Number</h2><br>
+                    <span>+91-00000000000</span>
+                </div>
+                
+                <div class="text">
+                    <h2>Address</h2><br>
+                    <span>City-Delhi, State-Delhi, India</span>
+                </div>
+
+                <div class="social-button">
+                    <button> <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></button>
+                    <button> <a href="https://github.com/Ajworp"><i class="fa fa-github" aria-hidden="true"></i> </a></button>
+                    <button> <a href="https://www.youtube.com/channel/UCf1P55GKfrCuY8IZ0XNd-qg"><i class="fa fa-youtube-play" aria-hidden="true"></i> </a></button>
+                    <button> <a href="#"> <i class="fa fa-linkedin-square" aria-hidden="true"></i></a></button>
+                </div>
+
+            </div> 
+            <!-- end of Pack class -->
+
+            </div>
+         <!-- info class End -->
+            <form onsubmit=" send(); reset(); return false;">
+               
+                <div class="icon">
+                 <div class="sign"><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
+                </div>
+
+              <div class="input-control">
+                <label for="">Name</label><br>
+                <input type="text" placeholder="Enter Your Name" id="Name">
+              </div>
+              <!-- input control End -->
+               
+
+              <div class="input-control">
+                <label for="">Email</label><br>
+                <input type="text" placeholder="Enter Your Email" id="email">
+              </div>
+              <!-- input control End -->
+
+              <div class="input-control">
+                <label for="">Contact-Number</label><br>
+                <input type="text" placeholder="Enter Your Contact Number" id="Contact">
+              </div>
+              <!-- input control End -->
+
+
+              <div class="input-control">
+                <label for="">Subject</label><br>
+                <input type="text" placeholder="Enter Your Subject" id="Subject">
+              </div>
+              <!-- input control End -->
+             
+              <div class="input-control">
+                <label for="">Message</label><br>
+                <textarea name="" id="message"  rows="6" placeholder="Enter Your Message"></textarea>
+              </div>
+
+               <div class="input-control">
+                <button type="submit">submit</button>
+               </div>
+            </form>
+            <!-- form end -->
+        </div>
+        <!-- Form container End -->
+      </div>
+
+      <script src="https://smtpjs.com/v3/smtp.js">
+      </script>
+<script>
+ var send = function (){
+    let Name =document.getElementById("Name").value;
+    let email =document.getElementById("email").value;
+    let Contact =document.getElementById("Contact").value;
+    let Subject =document.getElementById("Subject").value;
+    let message =document.getElementById("message").value;
+   
+    Email.send({
+     Host : "smtp.elasticemail.com",
+     Username : "man.of.iron786@gmail.com",
+     Password : "50CFC0089CC01AAE32399821A67DD4256483",
+     To : 'aj478632@gmail.com',
+     From : 'man.of.iron786@gmail.com',
+     Subject : "This is the subject",
+     Body : "Name: <t/> " + Name + "<br/> user Email:  <t/> " + email +"<br/> Contact No: <t/> " +Contact+ "<br/> Subject: <t/> " +Subject+"<br/> Massage: <t/> "   +message
+          
+    }).then(
+    message => alert(message)
+    );
+  }
+</script>      
+
+</body>
+</html>
